@@ -62,3 +62,26 @@ footer .brand{margin-bottom:20px}
 .hero-cinematic~.path-grid{margin-top:25px}
 @media(max-width:1000px){.hero-cinematic .search-panel{width:calc(100% - 64px)}.hero-cinematic .hero-video-controls{bottom:177px;left:auto;right:32px}.hero-cinematic .hero-side-note{display:none}.hero-cinematic .hero-copy{bottom:190px;max-width:65%}.hero-cinematic .video-caption{display:none}.hero-cinematic .video-toggle{width:auto;min-height:44px;padding:7px 12px}}
 @media(max-width:600px){.hero-cinematic{min-height:640px;height:calc(100svh - 145px);max-height:780px;padding:30px 18px;margin-top:16px;border-radius:20px}.hero-masthead{font-size:clamp(2.8rem,10.8vw,4.2rem);letter-spacing:-.065em}.hero-masthead>span{font-size:.45rem;letter-spacing:.55em;margin-top:11px}.hero-cinematic .hero-copy{left:20px;bottom:244px;max-width:calc(100% - 40px)}.hero-cinematic .hero-copy h1{font-size:2rem}.hero-cinematic .hero-copy .eyebrow{font-size:.48rem}.hero-cinematic .hero-video-controls{right:20px;bottom:360px}.hero-cinematic .video-toggle{min-height:40px;font-size:.62rem;padding:5px 10px}.hero-cinematic .video-toggle svg{width:26px;height:26px;padding:6px}.hero-cinematic .search-panel{left:20px;right:20px;bottom:24px;width:auto}.hero-cinematic .search-fields{grid-template-columns:1fr 1fr;gap:12px 10px}.hero-cinematic .search-fields label{font-size:.58rem}.hero-cinematic .search-fields select{font-size:.72rem;min-height:43px}.hero-cinematic .search-tabs{margin-bottom:10px}.hero-cinematic .search-fields .btn{min-height:43px;padding:10px 8px;font-size:.68rem}.hero-cinematic .hero-video-art video,.hero-cinematic .hero-video-art .hero-poster{object-position:58% center}.hero-cinematic:after{background:linear-gradient(180deg,#151b1c60 0%,transparent 25%,#171c1b30 40%,#171c1bef 75%,#171c1b 100%)}}
+/* Edge-to-edge homepage film with navigation inside the first screen. */
+.home-topbar{display:none}
+header.home-nav{position:absolute;top:0;left:0;right:0;border-bottom:1px solid #faf6ef30;color:#faf6ef;background:linear-gradient(#17201bc0,#17201b20)}
+.home-nav .nav{max-width:none;padding:0 40px;height:100px}
+.home-nav .brand-art img{filter:brightness(0) invert(1)}
+.home-nav .navlinks a,.home-nav .language{color:#faf6ef}
+.home-nav .language option{color:#292620;background:#faf6ef}
+.home-nav .navlinks a:hover{color:#e4c9a3}
+.home-nav .icon-btn{background:#faf6ef12;border-color:#faf6ef55;color:#faf6ef}
+.home-nav .nav-actions .btn{background:#faf6ef;color:#292620;border-color:#faf6ef}
+.home-nav .mobile-nav{background:#252820f5;color:#faf6ef;backdrop-filter:blur(18px)}
+.home-main{max-width:none;padding:0}
+.home-main>.hero-cinematic{width:100%;height:100svh;min-height:600px;max-height:none;margin:0;border-radius:0;padding:0}
+.home-main .hero-art,.home-main .hero-cinematic:after{border-radius:0}
+.home-main>.hero-cinematic:after{background:linear-gradient(180deg,#161b1c65 0%,transparent 35%,#171c1b30 55%,#171c1bee 100%)}
+.home-main>.hero-cinematic .hero-copy{left:40px;bottom:190px}
+.home-main>.hero-cinematic .hero-side-note{right:40px}
+.home-main>.hero-cinematic .hero-video-controls{left:40px}
+.home-main>.hero-cinematic .search-panel{right:40px;width:calc(100% - 300px);bottom:35px}
+.home-main>:not(.hero){max-width:1232px;width:calc(100% - 88px);margin-left:auto;margin-right:auto}
+@media(max-width:1000px){.home-main>.hero-cinematic .search-panel{left:32px;right:32px;width:auto}.home-main>.hero-cinematic .hero-video-controls{left:auto;right:32px}.home-nav .nav{padding:0 28px}.home-main>.hero-cinematic .hero-copy{left:32px}}
+@media(max-width:600px){.home-nav .nav{height:82px;padding:0 20px}.home-nav .brand-art{width:170px}.home-main>.hero-cinematic{min-height:560px}.home-main>.hero-cinematic .hero-copy{left:20px;bottom:244px}.home-main>.hero-cinematic .hero-video-controls{left:auto;right:20px;bottom:360px}.home-main>.hero-cinematic .search-panel{left:20px;right:20px;bottom:24px;width:auto}.home-main>:not(.hero){width:calc(100% - 32px)}.home-main>.hero-cinematic:after{background:linear-gradient(180deg,#151b1c75 0%,transparent 27%,#171c1b25 40%,#171c1be8 76%,#171c1b 100%)}}
+@media(max-height:600px) and (min-width:601px){.home-main>.hero-cinematic{min-height:430px}.home-nav .nav{height:76px}.home-main>.hero-cinematic .hero-copy{bottom:160px}.home-main>.hero-cinematic .hero-copy h1{font-size:2.2rem}.home-main>.hero-cinematic .hero-side-note{bottom:165px}}
