@@ -21,3 +21,15 @@ footer .brand{margin-bottom:20px}
 .path,.area{transition:translate .25s ease,box-shadow .25s ease}.path:hover,.area:hover{translate:0 -3px;box-shadow:var(--shadow)}
 @media(prefers-reduced-motion:reduce){.scroll-reveal{opacity:1;translate:none;transition:none}.hero-copy,.search-panel{animation:none}.property-card:hover .card-image img{scale:1}.path:hover,.area:hover{translate:none}}
 .scroll-reveal{transition:opacity .7s ease var(--reveal-delay,0ms),translate .7s cubic-bezier(.22,1,.36,1) var(--reveal-delay,0ms)}@media(prefers-reduced-motion:reduce){.scroll-reveal{transition:none}}
+/* Cinematic hero, with independently interactive property search. */
+.hero-video-art{pointer-events:none;background:#443f33}
+.hero-video-art video,.hero-video-art .hero-poster{position:absolute;inset:-28px 0;width:100%;height:calc(100% + 56px);object-fit:cover;object-position:65% center;translate:0 var(--video-drift,0px);filter:saturate(.88)}
+.hero-video-controls{position:absolute;right:30px;bottom:157px;display:flex;gap:12px;align-items:center;z-index:3;color:white}
+.video-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:9px 15px;border-radius:30px;border:1px solid #ffffff70;background:#20231bd9;color:white;font-size:.78rem;font-weight:700}
+.video-caption{font-size:.66rem;letter-spacing:.06em;text-shadow:0 1px 4px #000}
+.hero:after{pointer-events:none;background:linear-gradient(90deg,#172017d9 0%,#17201788 43%,#17201712 85%)}
+.hero .search-panel{animation:none;opacity:1}
+@media(max-width:800px){.hero-video-controls{bottom:191px;right:23px}.video-caption{display:none}.hero-video-art video,.hero-video-art .hero-poster{height:calc(100% + 56px);object-position:67% center}.hero:after{background:linear-gradient(90deg,#172017dc,#17201750)}.hero-copy h1{font-size:2.7rem}.hero{min-height:610px}}
+@media(max-width:520px){.hero{min-height:580px;padding:28px 23px 215px;margin-top:20px}.hero-copy h1{font-size:2.25rem;margin:12px 0}.hero-copy p{font-size:.86rem;line-height:1.55;margin-bottom:10px}.hero-copy .text-link{font-size:.8rem}.hero-video-controls{bottom:190px;right:23px}.search-panel{bottom:-18px}.search-fields label{font-size:.69rem}.search-fields select{font-size:.8rem}.search-tabs{margin-bottom:10px}.path-grid{margin-top:44px}}
+@media(prefers-reduced-motion:reduce){.hero-video-art video,.hero-video-art .hero-poster{translate:none}}
+@media(max-width:520px){.hero-video-controls{bottom:220px}}
