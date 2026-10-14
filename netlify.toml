@@ -1,0 +1,9 @@
+# GitHub repository root is the website directory.
+# Use genuine Next.js output for Netlify's automatic Next.js adapter.
+[build]
+  command = "npm run build:netlify"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
