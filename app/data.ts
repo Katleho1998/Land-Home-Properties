@@ -1,4 +1,4 @@
-export type Listing={id:string;title:string;town:string;type:string;purpose:'buy'|'rent';price:number;beds:number;baths:number;area:number;image:string;features:string[];commercial:boolean};
+export type Listing={id:string;title:string;town:string;type:string;purpose:'buy'|'rent';price:number;beds:number;baths:number;area:number;image:string;features:string[];commercial:boolean;description?:string;images?:{id:string,url:string,alt:string}[];published?:boolean;address?:string;garages?:number;erfSize?:number;rates?:number;levies?:number;postalCode?:string;province?:string;parking?:number;deposit?:number;available?:string};
 export const towns=['Ficksburg','Meqheleng','Fouriesburg','Clocolan'];
 export const photos=['https://images.unsplash.com/photo-1714177167566-5b447b38f61c?auto=format&fit=crop&w=900&q=75','https://images.unsplash.com/photo-1696266530641-24eb0bcd10eb?auto=format&fit=crop&w=900&q=75','https://images.unsplash.com/photo-1642775955817-e6613766851c?auto=format&fit=crop&w=900&q=75'];
 const rows:[string,string,string,'buy'|'rent',number,number,number,number][]=[
