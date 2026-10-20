@@ -38,7 +38,7 @@ export function useScrollMotion(){
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{if(entry.isIntersecting)reveal(entry.target as HTMLElement)});
     },{threshold:0,rootMargin:'0px 0px -32px 0px'});
-    const selector='main .path, main .section-head, main .property-card, main .promise>div, main .promises>div, main .area, main .cta, main .page-intro, main .filter-panel, main .panel, main .step, main .gallery, main .detail-heading, main .map-panel, main .quote-placeholder, main .privacy-copy>*, footer .footer-grid>div, main .conversion-copy, main .seller-stage, main .landlord-heading, main .landlord-benefits>article, main .landlord-action';
+    const selector='main .path, main .section-head, main .property-card, main .promise>div, main .promises>div, main .area, main .cta, main .page-intro, main .filter-panel, main .panel, main .step, main .gallery, main .detail-heading, main .map-panel, main .quote-placeholder, main .privacy-copy>*, footer .footer-grid>div, main .intent-section .section-head, main .difference-card, main .seller-feature-copy, main .local-intro, main .local-towns>a, main .faq-section, main .contact-destination, main .conversion-copy, main .seller-stage, main .landlord-heading, main .landlord-benefits>article, main .landlord-action';
     const register=()=>{
       document.querySelectorAll<HTMLElement>('[data-scroll-scene],.gallery,.promise').forEach(el=>scenes.add(el));
       scheduleScroll();
