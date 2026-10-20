@@ -5,7 +5,7 @@ const ts = require('typescript');
 const source = fs.readFileSync('app/crm/store.ts', 'utf8');
 const js = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
 const exportsObject = {};
-vm.runInNewContext(js, {exports: exportsObject, require: name => name === 'react' ? {} : name === '../data' ? {listings: []} : (()=>{throw Error(name)})(), crypto: require('node:crypto').webcrypto, URL, Date, Number, String});
+vm.runInNewContext(js, {exports: exportsObject, require: name => name === 'react' ? {} : name === '../data' ? {listings: []} : name === '@/lib/supabase' ? {sharedCRMEnabled:true} : name === './shared-store' ? {} : (()=>{throw Error(name)})(), crypto: require('node:crypto').webcrypto, URL, Date, Number, String});
 const {blankProperty,validatePropertyDraft,publishIssues,publicListing,getPublicListings} = exportsObject;
 const p = blankProperty();
 assert(publishIssues(p).length >= 7, 'Incomplete listing must be blocked');
