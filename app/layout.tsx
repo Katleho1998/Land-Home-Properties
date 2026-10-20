@@ -4,6 +4,8 @@ import "./globals.css";
 import "./front-refinement.css";
 import "./brand-refinement.css";
 import "./support-chat.css";
+import "./property-gallery.css";
+import "./property-finance.css";
 
 export const metadata: Metadata = {
   title: "Land & Home Properties | Ficksburg & Eastern Free State",
