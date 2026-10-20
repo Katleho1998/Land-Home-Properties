@@ -20,3 +20,15 @@ footer>.office-hours{margin:24px auto;padding:24px;width:100%;max-width:540px}
 @media(prefers-reduced-motion:reduce){.property-card,.property-card::after{transition:none}.property-card:hover,.property-card:focus-within{transform:none}}
 
 .ai-chat{margin:25px 0;padding:22px;background:#faf6ef;border:1px solid #ded7cb;border-radius:18px}.ai-chat-title{display:flex;gap:10px;align-items:center}.ai-chat-notice{font-size:11px;line-height:1.7;color:#625c53}.ai-messages{max-height:340px;overflow:auto;overscroll-behavior:contain}.ai-message{background:#fffdf9;border:1px solid #ded7cb;border-radius:15px;padding:15px;margin:14px 0;font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}.ai-message.user{background:#292620;color:#fffdf9;margin-left:24px}.ai-message small{font-size:9px;letter-spacing:.08em}.ai-message p{margin:5px 0 0}.ai-chat-actions{display:flex;flex-wrap:wrap;gap:18px;margin-top:20px}.finder-filter-title{border-top:1px solid #ded7cb;padding-top:25px}.ai-chat button:disabled{opacity:.55;cursor:default}
+.enquiry-delivery{border:0;padding:0;margin:26px 0 20px;min-width:0}
+.enquiry-delivery legend{font-size:14px;font-weight:600;margin-bottom:14px}
+.delivery-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.delivery-options>label{display:flex;align-items:center;gap:10px;border:1px solid #ded7cb;border-radius:14px;background:#fffdf9;padding:17px 13px;cursor:pointer}
+.delivery-options>label.selected{border-color:#3b2a20;background:#faf6ef;box-shadow:0 0 0 1px #3b2a20}
+.delivery-options input{accent-color:#3b2a20;flex-shrink:0;margin:0}
+.delivery-options strong{display:block;font-size:12px;color:#292620}
+.delivery-options small{display:block;font-size:10px;line-height:1.6;margin-top:5px;color:#625c53}
+.delivery-pending{background:#eee8dd;border-radius:13px;padding:17px;margin-top:14px;font-size:12px;line-height:1.7;color:#292620}
+.delivery-pending p{margin:7px 0;color:#625c53}
+.delivery-pending .text-link{font-size:11px}
+@media(max-width:600px){.delivery-options{grid-template-columns:1fr}.modern-form-actions>.btn{font-size:12px}}
