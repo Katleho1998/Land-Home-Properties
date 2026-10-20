@@ -7,7 +7,7 @@ import {captureEnquiry} from './crm/store';
 import {enquiryAttribution} from './attribution';
 
 type FormField={key:string;label:string;type?:string;options?:string[];required?:boolean;hint?:string};
-const areas=['Ficksburg','Meqheleng','Clocolan'];
+const areas=['Ficksburg','Meqheleng'];
 const contactFields:FormField[]=[{key:'name',label:'Your full name',required:true},{key:'phone',label:'Phone / WhatsApp',type:'tel',required:true,hint:'The number we can reach you on.'},{key:'email',label:'Email address',type:'email'},{key:'language',label:'Preferred language',options:['English','Afrikaans','Sesotho']}];
 function fieldsFor(kind:string):FormField[]{
   if(kind==='seller')return [{key:'town',label:'Where is your property?',options:areas,required:true},{key:'type',label:'Property type',options:['House','Flat','Townhouse','Land','Commercial'],required:true},{key:'address',label:'Street or neighbourhood',required:true},{key:'timing',label:'When would you like to sell?',options:['As soon as possible','Within 3 months','3–6 months','Just exploring'],required:true},{key:'ownership',label:'Your relationship to the property',options:['Owner','Co-owner','Authorised representative'],required:true},{key:'notes',label:'Anything else we should know?',type:'textarea'}];
