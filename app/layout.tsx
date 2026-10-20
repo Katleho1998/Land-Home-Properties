@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import "./front-refinement.css";
 import "./brand-refinement.css";
+import "./support-chat.css";
 
 export const metadata: Metadata = {
   title: "Land & Home Properties | Ficksburg & Eastern Free State",
