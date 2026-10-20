@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import "./globals.css";
 import "./front-refinement.css";
+import "./brand-refinement.css";
 
 export const metadata: Metadata = {
   title: "Land & Home Properties | Ficksburg & Eastern Free State",
