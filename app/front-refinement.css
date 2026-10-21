@@ -28,7 +28,7 @@
 .difference-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .difference-grid .difference-card{--spotlight-card-surface:#171715!important;--spotlight-card-border:#d4b78e35!important;border-radius:20px;color:#fff;padding:0}
 .difference-card-content{position:relative;z-index:1;padding:38px 30px;min-height:300px}
-.difference-card-content>svg{color:#dec29c;margin:7px 0 35px}.difference-index{position:absolute;right:28px;top:36px;color:#d4b78e80;font-size:.75rem}
+.difference-card-content>svg{color:#dec29c;margin:7px 0 35px}.difference-index{position:absolute;right:18px;top:4px;color:#d4b78e33;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:88px;font-weight:800;line-height:1;letter-spacing:-.06em;pointer-events:none;user-select:none}
 .difference-card h3{font-size:1.35rem;margin-bottom:14px}.difference-card p{color:#d9e0d4;font-size:.9rem;line-height:1.7}
 .seller-feature{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:center}
 .seller-feature-image{position:relative;min-height:670px;border-radius:180px 180px 18px 18px;overflow:hidden}
