@@ -1,5 +1,27 @@
 /* Land & Home / October 2026 — editorial conversion system */
 :root{--text:var(--ink)}
+/* One controlled carousel keeps swipe, keyboard tabs and automatic movement in sync. */
+.journey-carousel [data-slot=tabs-list]{position:relative;isolation:isolate;gap:0}
+.journey-tab-highlight{position:absolute;z-index:-1;pointer-events:none;left:7px;top:7px;width:calc((100% - 14px)/4);height:calc(100% - 14px);border-radius:9px;background:var(--surface);box-shadow:0 3px 12px #171b1510;transform:translateX(calc(var(--journey-index)*100%));transition:transform .65s cubic-bezier(.22,.75,.2,1)}
+.journey-carousel [data-slot=tabs-trigger][data-state=active]{background:transparent!important;box-shadow:none!important}
+.journey-carousel [data-slot=tabs-trigger]{min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.4}
+.journey-viewport{overflow:hidden;touch-action:pan-y pinch-zoom;border-radius:24px}
+.journey-track{display:flex;align-items:stretch;touch-action:pan-y pinch-zoom}
+.journey-carousel .journey-slide{flex:0 0 100%;min-width:0;display:flex;margin:0;padding:0 1px;animation:none}
+.journey-slide .intent-panel{width:100%;height:100%}
+.journey-slide .intent-photo img{transform:scale(1.055);transition:transform 7.5s ease-out}
+.journey-slide[data-state=active] .intent-photo img{transform:scale(1)}
+.journey-controls{display:flex;align-items:center;gap:20px;padding-top:18px}
+.journey-count{font-size:12px;font-variant-numeric:tabular-nums;letter-spacing:.12em;color:var(--muted);white-space:nowrap}
+.journey-count b{color:var(--ink);font-size:16px;font-weight:600}
+.journey-progress{height:2px;width:100%;max-width:150px;background:var(--line);overflow:hidden;border-radius:5px}
+.journey-progress>span{display:block;height:100%;background:var(--ink);transform-origin:left;animation:journey-progress 7s linear both}
+.journey-buttons{display:flex;gap:8px;margin-left:auto}
+.journey-buttons button{display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);transition:background .2s,transform .2s}
+.journey-buttons button:hover{background:var(--soft);transform:translateY(-2px)}
+@keyframes journey-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(max-width:700px){.journey-carousel [data-slot=tabs-list]{grid-auto-rows:1fr}.journey-tab-highlight{width:calc((100% - 14px)/2);height:calc((100% - 14px)/2);transform:translate(calc(var(--journey-column)*100%),calc(var(--journey-row)*100%))}.journey-controls{gap:12px}.journey-buttons button{width:44px;height:44px}.journey-progress{max-width:90px}}
+@media(prefers-reduced-motion:reduce){.journey-tab-highlight,.journey-slide .intent-photo img,.journey-buttons button{transition:none}.journey-progress{display:none}.journey-slide .intent-photo img{transform:none}}
 .home-contact-ribbon{display:flex;align-items:center;justify-content:space-between;padding:27px 0;border-bottom:1px solid var(--line);font-size:.82rem}
 .home-contact-ribbon span,.home-contact-ribbon a{display:flex;align-items:center;gap:10px}
 .hero-seller-link{display:flex;align-items:center;gap:9px;font-size:.83rem;color:#fff;margin-top:22px;width:fit-content;border-bottom:1px solid #ffffff70;padding-bottom:7px}

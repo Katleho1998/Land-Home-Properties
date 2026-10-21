@@ -1,5 +1,9 @@
 // Interface copy. Listing descriptions and visitor messages remain as authored.
 const copy = `
+Previous card|Vorige kaart|Karete e fetileng
+Next card|Volgende kaart|Karete e latelang
+Pause automatic slides|Onderbreek outomatiese skyfies|Emisa likarete tse itsamaelang
+Resume automatic slides|Hervat outomatiese skyfies|Tsoela pele ka likarete tse itsamaelang
 property|eiendom|thepa
 properties|eiendomme|thepa
 Full bathroom|Volledige badkamer|Kamore e felletseng ea ho hlapela

@@ -1,7 +1,9 @@
 'use client';
 import {t as translate,tNode,tAttr,useLocale} from './i18n';
 import Link from 'next/link';
-import { ArrowUpRight, Check, Home, KeyRound, MapPin, MessageCircle, Phone, Mail, ShieldCheck, Sparkles } from 'lucide-react';
+import {useEffect,useRef,useState,type CSSProperties} from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import { ArrowUpRight, Check, Home, KeyRound, MapPin, MessageCircle, Phone, Mail, ShieldCheck, Sparkles, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import SpotlightCard from '@/components/react-bits/SpotlightCard';
@@ -15,11 +17,46 @@ const journeys = [
 ];
 export function IntentSection() {
     useLocale();
-    return <section className="intent-section section" id="your-next-move">
-  <div className="section-head"><div><span className="eyebrow">{translate("A PLACE FOR EVERY NEXT CHAPTER")}</span><h2>{translate("Where would you")}<br />{translate("like to ")}<em>{translate("begin?")}</em></h2></div><p>{translate("One local team.")}<br />{translate("A conversation built around you.")}</p></div>
-  <Tabs defaultValue="buy" className="journey-tabs"><TabsList aria-label={translate("Your property goal")}>{tNode(journeys.map(j => <TabsTrigger key={j.id} value={j.id}><j.icon size={17}/>{tNode(j.label)}</TabsTrigger>))}</TabsList>
-  {tNode(journeys.map(j => <TabsContent value={j.id} key={j.id}><div className="intent-panel"><div className="intent-copy"><span className="eyebrow">{translate("LAND & HOME / ")}{tNode(j.label.toUpperCase())}</span><h3>{tNode(j.title)}</h3><p>{tNode(j.copy)}</p><ul>{tNode(j.points.map(point => <li key={point}><Check size={17}/>{tNode(point)}</li>))}</ul><Link href={j.href} className="btn">{tNode(j.cta)}<ArrowUpRight size={18}/></Link><a className="text-link" href={business.tel}>{translate("Prefer a call? ")}{tNode(business.phone)}</a></div><div className="intent-photo"><img src={j.image} alt={translate("Illustrative modern home")} loading="lazy"/><span>{tNode(j.caption)}</span><small>{translate("Illustrative lifestyle imagery")}</small></div></div></TabsContent>))}</Tabs>
-  </section>;
+    const section=useRef<HTMLElement>(null);
+    const remaining=useRef(7000),timedSlide=useRef(0);
+    const [active,setActive]=useState(0),[paused,setPaused]=useState(false),[hovered,setHovered]=useState(false),[focused,setFocused]=useState(false),[dragging,setDragging]=useState(false),[visible,setVisible]=useState(false),[pageVisible,setPageVisible]=useState(true),[reduced,setReduced]=useState(true);
+    const [viewport,carousel]=useEmblaCarousel({loop:true,align:'start',duration:reduced?0:32,watchDrag:(_api,event)=>!(event.target instanceof Element&&event.target.closest('a,button,input,select,textarea'))});
+    useEffect(()=>{
+        const preference=window.matchMedia('(prefers-reduced-motion: reduce)');
+        const motion=()=>setReduced(preference.matches),visibility=()=>setPageVisible(!document.hidden);
+        motion();visibility();preference.addEventListener('change',motion);document.addEventListener('visibilitychange',visibility);
+        const observer=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting&&entry.intersectionRatio>=0.15),{threshold:0.15});
+        if(section.current)observer.observe(section.current);
+        return()=>{preference.removeEventListener('change',motion);document.removeEventListener('visibilitychange',visibility);observer.disconnect()};
+    },[]);
+    useEffect(()=>{
+        if(!carousel)return;
+        const select=()=>setActive(carousel.selectedScrollSnap()),down=()=>setDragging(true),up=()=>setDragging(false);
+        carousel.on('select',select).on('reInit',select).on('pointerDown',down).on('pointerUp',up);select();
+        return()=>{carousel.off('select',select).off('reInit',select).off('pointerDown',down).off('pointerUp',up)};
+    },[carousel]);
+    const running=visible&&pageVisible&&!reduced&&!paused&&!hovered&&!focused&&!dragging;
+    useEffect(()=>{
+        if(timedSlide.current!==active){remaining.current=7000;timedSlide.current=active}
+        if(!carousel||!running)return;
+        const started=performance.now();
+        const timer=window.setTimeout(()=>carousel.scrollNext(),remaining.current);
+        return()=>{window.clearTimeout(timer);remaining.current=Math.max(0,remaining.current-(performance.now()-started))};
+    },[carousel,running,active]);
+    const choose=(index:number)=>carousel?.scrollTo(index,reduced);
+    const style={'--journey-index':active,'--journey-column':active%2,'--journey-row':Math.floor(active/2)} as CSSProperties;
+    return <section ref={section} className="intent-section section" id="your-next-move" onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)} onFocusCapture={()=>setFocused(true)} onBlurCapture={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node|null))setFocused(false)}}>
+      <div className="section-head"><div><span className="eyebrow">{translate('A PLACE FOR EVERY NEXT CHAPTER')}</span><h2>{translate('Where would you')}<br/>{translate('like to ')}<em>{translate('begin?')}</em></h2></div><p>{translate('One local team.')}<br/>{translate('A conversation built around you.')}</p></div>
+      <Tabs value={journeys[active].id} onValueChange={value=>choose(journeys.findIndex(j=>j.id===value))} className="journey-tabs journey-carousel" style={style}>
+        <TabsList aria-label={translate('Your property goal')}><span className="journey-tab-highlight" aria-hidden="true"/>{journeys.map(j=><TabsTrigger key={j.id} value={j.id}><j.icon size={17}/>{translate(j.label)}</TabsTrigger>)}</TabsList>
+        <div ref={viewport} className="journey-viewport"><div className="journey-track">
+          {journeys.map((j,index)=><TabsContent forceMount hidden={false} inert={index!==active} aria-hidden={index!==active} tabIndex={index===active?0:-1} value={j.id} key={j.id} className="journey-slide">
+            <div className="intent-panel"><div className="intent-copy"><span className="eyebrow">{translate('LAND & HOME / ')}{translate(j.label)}</span><h3>{translate(j.title)}</h3><p>{translate(j.copy)}</p><ul>{j.points.map(point=><li key={point}><Check size={17}/>{translate(point)}</li>)}</ul><Link href={j.href} className="btn">{translate(j.cta)}<ArrowUpRight size={18}/></Link><a className="text-link" href={business.tel}>{translate('Prefer a call? ')}{business.phone}</a></div><div className="intent-photo"><img src={j.image} alt={translate('Illustrative modern home')} loading="lazy" draggable={false}/><span>{translate(j.caption)}</span><small>{translate('Illustrative lifestyle imagery')}</small></div></div>
+          </TabsContent>)}
+        </div></div>
+        <div className="journey-controls"><span className="journey-count" aria-live={running?'off':'polite'}><b>{String(active+1).padStart(2,'0')}</b><span aria-hidden="true"> / </span><span className="sr-only">{translate('of ' )}</span>04</span><div className="journey-progress" aria-hidden="true"><span key={active} style={{animationPlayState:running?'running':'paused'}}/></div><div className="journey-buttons"><button type="button" onClick={()=>choose((active+journeys.length-1)%journeys.length)} aria-label={translate('Previous card')}><ChevronLeft size={18}/></button>{!reduced&&<button type="button" onClick={()=>setPaused(v=>!v)} aria-label={translate(paused?'Resume automatic slides':'Pause automatic slides')} aria-pressed={paused}>{paused?<Play size={15}/>:<Pause size={15}/>}</button>}<button type="button" onClick={()=>choose((active+1)%journeys.length)} aria-label={translate('Next card')}><ChevronRight size={18}/></button></div></div>
+      </Tabs>
+    </section>;
 }
 export function ServiceDifference() {
     useLocale();
