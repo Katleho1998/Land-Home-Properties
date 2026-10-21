@@ -1,0 +1,108 @@
+/* Public website only. Keep mobile controls in one predictable place. */
+.site-shell{min-width:0}
+@media(max-width:800px){.site-shell .support-dialog{max-width:none}}
+@media(max-width:800px){
+ .site-shell{--mobile-dock:calc(68px + env(safe-area-inset-bottom,0px));padding-bottom:var(--mobile-dock)}
+ .site-shell :is(main,section,article,aside,form,.card-copy,.nav-actions,.footer-grid>div){min-width:0}
+ .site-shell :is(h1,h2,h3,p,a,dd){overflow-wrap:break-word}
+ .site-shell :is(input,select,textarea){font-size:16px!important;max-width:100%}
+ .site-shell :is(button,.btn,.chip,.icon-btn){touch-action:manipulation}
+ .site-shell :is(.btn,.chip,.icon-btn,.search-tabs button,.finance-reset){min-height:44px}
+ .site-shell .icon-btn{min-width:44px}
+ .site-shell .nav,.site-shell .home-nav .nav{height:78px;padding-inline:16px;gap:8px}
+ .site-shell .brand-art,.site-shell .home-nav .brand-art{width:clamp(128px,31vw,180px);flex-shrink:1}
+ .site-shell .nav-actions{gap:4px;flex-shrink:0}
+ .site-shell .nav-actions .language{width:48px;min-height:44px;padding:4px}
+ .site-shell .navlinks{display:none}
+ .site-shell .menu-btn{display:flex}
+ .site-shell .mobile-nav{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:12px 16px 20px;max-height:calc(100dvh - 90px);overflow:auto;overscroll-behavior:contain}
+ .site-shell .mobile-nav a{display:flex;align-items:center;min-height:48px;padding:10px 14px;border-radius:8px}
+ .site-shell .mobile-nav a:focus-visible{outline:2px solid currentColor;outline-offset:-2px}
+ .site-shell .mobile-contact-bar{position:fixed;inset:auto 0 0;z-index:65;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -4px 20px #0000000d}
+ .site-shell .mobile-contact-bar :is(a,button){display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:48px;padding:8px 5px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:12px;font-weight:600;background:var(--surface);color:var(--ink);cursor:pointer}
+ .site-shell .mobile-contact-bar .mobile-ai-launch{background:#292620;color:#fffdf9;border-color:#292620}
+ .site-shell .mobile-contact-bar svg{width:18px;height:18px;flex-shrink:0}
+ .site-shell .finder-launch{display:none}
+ .site-shell:has(dialog[open]) .mobile-contact-bar,.site-shell:has(.mobile-nav) .mobile-contact-bar,.site-shell:has(input:focus,textarea:focus,select:focus) .mobile-contact-bar{visibility:hidden;pointer-events:none}
+ body:has(.mobile-contact-bar) .site-shell footer{padding-bottom:28px}
+ .site-shell .topbar{gap:12px;flex-wrap:wrap;text-align:center;padding-inline:16px}
+ .site-shell .topbar a{margin:0 auto}
+ .site-shell .home-topbar{display:none}
+ .site-shell .home-main>.hero-cinematic{height:auto;min-height:calc(100svh - var(--mobile-dock));padding:128px 20px 28px;display:flex;flex-direction:column;justify-content:flex-end;gap:24px}
+ .site-shell .home-main>.hero-cinematic .hero-copy{position:relative;inset:auto;max-width:100%;margin-top:30px}
+ .site-shell .home-main>.hero-cinematic .hero-copy h1{font-size:clamp(30px,7.5vw,48px);line-height:1.12}
+ .site-shell .home-main>.hero-cinematic .hero-copy .eyebrow{font-size:10px;line-height:1.6;letter-spacing:.12em}
+ .site-shell .home-main>.hero-cinematic .search-panel{position:relative;inset:auto;width:100%;margin:0;flex-shrink:0}
+ .site-shell .hero-cinematic .search-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+ .site-shell .hero-cinematic .search-fields label{padding:0;font-size:12px;min-width:0}
+ .site-shell .hero-cinematic .search-fields select{min-height:48px;width:100%;padding-inline:10px}
+ .site-shell .hero-cinematic .search-fields .btn{min-height:48px;font-size:13px;padding:10px;white-space:normal;line-height:1.4}
+ .site-shell .home-main>.hero-cinematic .hero-video-controls{inset:90px 20px auto auto}
+ .site-shell .hero-cinematic .hero-side-note{display:none}
+ .site-shell .hero-seller-link{min-height:44px;font-size:12px;line-height:1.5;margin-top:8px}
+ .site-shell .hero-cinematic .hero-video-art video,.site-shell .hero-cinematic .hero-video-art .hero-poster{height:100%;transform:none;translate:none;object-position:60% center}
+ .site-shell .home-main>:not(.hero){width:calc(100% - 32px)}
+ .site-shell .home-contact-ribbon{flex-wrap:wrap;gap:8px 16px}
+ .site-shell .home-contact-ribbon a{min-height:44px;font-size:12px}
+ .site-shell .section-head{align-items:flex-start;flex-wrap:wrap}
+ .site-shell .facts,.site-shell .detail-facts{flex-wrap:wrap;gap:12px}
+ .site-shell .detail-heading h1{font-size:clamp(28px,7vw,40px)}
+ .site-shell .detail-price{white-space:normal;font-size:clamp(24px,6vw,32px)}
+ .site-shell .results-toolbar{align-items:center;gap:12px}
+ .site-shell .sort-control{min-width:0;flex-wrap:wrap}
+ .site-shell .sort-control select{max-width:100%;min-height:44px}
+ .site-shell .form-review>div{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .site-shell .modern-form-actions{flex-wrap:wrap}
+ .site-shell .modern-form-actions .btn{flex:1;white-space:normal;line-height:1.5}
+ .site-shell .form-stepper li{flex-direction:column;align-items:flex-start;gap:6px}
+ .site-shell .form-stepper small{font-size:11px;line-height:1.4}
+ .site-shell .consent{font-size:13px}
+ .site-shell :is(.finance-footnote,.finance-field small,.support-note,.form-reassurance){font-size:12px!important;line-height:1.65}
+ .site-shell .consent input{width:20px;height:20px;flex-shrink:0}
+ .site-shell .office-hours dl div{gap:12px;flex-wrap:wrap}
+ .site-shell .office-hours dd{white-space:normal}
+ .site-shell .footer-grid a:not(.brand){padding-block:7px;line-height:1.5}
+ .site-shell .town-coming-soon{flex-wrap:wrap}
+ .site-shell .coming-badge{margin-left:0}
+ .site-shell .map-panel iframe{height:300px}
+ .site-shell .support-dialog{inset:var(--chat-top,8px) 8px auto;margin:0;width:calc(100% - 16px);height:var(--chat-height,calc(100dvh - 16px));max-height:var(--chat-height,calc(100dvh - 16px));border-radius:18px;overflow:auto;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom)}
+ .site-shell .support-header{padding:12px 14px;gap:10px}
+ .site-shell .support-messages{min-height:100px;max-height:min(36dvh,calc(var(--chat-height,100dvh) * .38));padding:16px 14px 6px}
+ .site-shell .support-chat-bottom{padding:12px 14px}
+ .site-shell .support-bubble{font-size:14px}
+ .site-shell .support-suggestions button{min-height:44px;font-size:12px;padding:8px 12px}
+ .site-shell .support-input>button,.site-shell .support-tools button{width:44px;height:44px;min-height:44px}
+ .site-shell .support-input textarea{font-size:16px;min-height:52px}
+ .site-shell .guided-thread{max-height:calc(var(--chat-height,100dvh) - 190px);min-height:90px}
+ .site-shell .guided-tools button,.site-shell .guided-options button{min-height:44px;font-size:12px}
+ .site-shell .support-filter-details>summary{padding-block:12px;font-size:12px}
+ .site-shell .photo-tour-toolbar{padding-top:env(safe-area-inset-top);height:calc(64px + env(safe-area-inset-top))}
+ .site-shell .photo-tour-scroll,.site-shell .photo-viewer{height:calc(100dvh - 64px - env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+ .site-shell .photo-viewer-stage>button{width:44px;height:44px}
+}
+@media(max-width:480px){
+ .site-shell .grid3,.site-shell .filter-panel,.site-shell .features{grid-template-columns:minmax(0,1fr)}
+ .site-shell .panel{padding:22px 16px}
+ .site-shell .areas,.site-shell .footer-grid{grid-template-columns:minmax(0,1fr)}
+ .site-shell .footer-grid>div:first-child{grid-column:auto}
+ .site-shell .home-main h2,.site-shell .contact-destination h2{font-size:clamp(30px,9vw,40px)}
+ .site-shell .property-finance{padding:20px 14px}
+ .site-shell .finance-heading h2{font-size:23px}
+ .site-shell .finance-result dl div{flex-wrap:wrap}
+ .site-shell .finance-result>strong{font-size:30px}
+ .site-shell .property-mosaic{height:280px;max-height:none;grid-template-columns:1fr;grid-template-rows:1fr}
+ .site-shell .property-mosaic .mosaic-photo:not(:first-child){display:none}
+ .site-shell .mosaic-photo-0{grid-row:auto}
+ .site-shell .photo-tour-index{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .site-shell .photo-tour-launch{min-height:44px}
+ .site-shell .dream-image{min-height:300px}
+ .site-shell .seller-feature-image{min-height:340px}
+ .site-shell .modern-success h3{font-size:27px}
+ .site-shell .form-review{padding-inline:14px}
+ .site-shell .form-review>div{grid-template-columns:1fr;gap:5px}
+}
+@media(hover:none) and (pointer:coarse){
+ .site-shell .scroll-reveal{opacity:1;translate:none;transform:none;clip-path:none}
+ .site-shell .property-card:hover{transform:none}
+ .site-shell .seller-feature-image img,.site-shell .journey-visual img{transform:none;will-change:auto}
+}
