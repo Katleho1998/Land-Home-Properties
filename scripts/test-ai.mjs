@@ -10,7 +10,7 @@ try{
     const body=JSON.parse(options.body);
     assert.equal(body.store,false);
     assert.equal(body.max_output_tokens,300);
-    assert.match(body.instructions,/NO connected live property database/);
+    assert.match(body.instructions,/no direct database access/);
     assert.match(body.instructions,/Fouriesburg and Bethlehem are coming soon/);
     return Response.json({status:'completed',output:[{type:'reasoning',content:[]},{type:'message',role:'assistant',content:[{type:'output_text',text:'What monthly budget do you have in mind?'}]}]});
   };
@@ -27,6 +27,14 @@ try{
   assert.equal(good.status,200);
   assert.equal((await good.json()).answer,'What monthly budget do you have in mind?');
   assert.equal(good.headers.get('cache-control'),'no-store');
+  assert.equal((await handler(req({messages:[{role:'user',content:'Hello'}],language:'invalid'}))).status,400);
+  for(const [language,name] of [['af','Afrikaans'],['st','Sesotho']]){
+    globalThis.fetch=async(_url,options)=>{
+      assert.match(JSON.parse(options.body).instructions,new RegExp('Reply in '+name));
+      return Response.json({status:'completed',output:[{type:'message',role:'assistant',content:[{type:'output_text',text:'Test reply'}]}]});
+    };
+    assert.equal((await handler(req({messages:[{role:'user',content:'Hello'}],language}))).status,200);
+  }
   globalThis.fetch=async()=>Response.json({error:{message:'PRIVATE UPSTREAM DETAILS'}},{status:401});
   const denied=await handler(req());
   assert.equal(denied.status,503);

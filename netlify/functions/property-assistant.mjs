@@ -24,11 +24,12 @@ export default async function handler(request){
   if(!origin||origin!==new URL(request.url).origin)return reply(403,{error:'Please use the assistant on our website.'});
   if(!request.headers.get('content-type')?.includes('application/json'))return reply(415,{error:'Invalid request format.'});
   if(Number(request.headers.get('content-length'))>16000)return reply(413,{error:'Please start a new conversation.'});
-  let messages;
+  let messages,language='en';
   try{
     const text=await request.text();
     if(new TextEncoder().encode(text).length>16000)return reply(413,{error:'Please start a new conversation.'});
-    ({messages}=JSON.parse(text));
+    ({messages,language='en'}=JSON.parse(text));
+    if(!['en','af','st'].includes(language))return reply(400,{error:'Unsupported language.'});
     if(!Array.isArray(messages)||!messages.length||messages.length>12||
       messages.some((m,i)=>!m||m.role!==(i%2===0?'user':'assistant')||typeof m.content!=='string'||!m.content.trim()||m.content.length>1200)||
       messages.at(-1).role!=='user')return reply(400,{error:'Please enter a shorter message or start a new conversation.'});
@@ -38,7 +39,7 @@ export default async function handler(request){
   try{
     const response=await fetch('https://api.openai.com/v1/responses',{
       method:'POST',headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},
-      body:JSON.stringify({model:process.env.OPENAI_MODEL||'gpt-4.1-mini',instructions,input:messages,max_output_tokens:300,store:false}),
+      body:JSON.stringify({model:process.env.OPENAI_MODEL||'gpt-4.1-mini',instructions:instructions+'\nReply in '+({en:'English',af:'Afrikaans',st:'Sesotho'})[language]+'. Keep business and town names unchanged.',input:messages,max_output_tokens:300,store:false}),
       signal:AbortSignal.timeout(20000)
     });
     if(!response.ok)return reply(response.status===429?429:503,{error:response.status===429?'The assistant is busy. Please try again shortly or contact the team.':'The assistant is temporarily unavailable. Please use the guided finder or contact the team.'});
