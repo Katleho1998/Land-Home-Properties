@@ -15,7 +15,7 @@ const api={
 vm.runInNewContext(ts.transpileModule(fs.readFileSync('app/crm/shared-store.ts','utf8'),{
   compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}
 }).outputText,{
-  exports:output,require:name=>{assert.equal(name,'@/lib/supabase');return {supabase:()=>api}},
+  exports:output,require:name=>{if(name==='./audit')return {recordClientEvent:async()=>{}};assert.equal(name,'@/lib/supabase');return {supabase:()=>api}},
   structuredClone,Map,JSON,Error
 });
 (async()=>{

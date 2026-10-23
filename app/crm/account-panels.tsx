@@ -2,6 +2,7 @@
 import {useEffect,useState,type FormEvent} from 'react';
 import {UserRound,ShieldCheck,Plus,Save,Users} from 'lucide-react';
 import {supabase} from '@/lib/supabase';
+import {recordClientEvent} from './audit';
 import {useStaff} from './staff-auth';
 import {initials,roleLabel,type StaffProfile} from './access';
 
@@ -15,7 +16,7 @@ export function ProfilePanel(){
  }catch(e){setError(e instanceof Error?e.message:'Could not save your profile.');}finally{setBusy(false);}}
  async function changePassword(e:FormEvent){e.preventDefault();setMessage('');setError('');if(password!==confirm){setError('The new passwords do not match.');return;}setBusy(true);try{
   const {error}=await supabase().auth.updateUser({password,current_password:current});if(error)throw new Error(error.message);
-  setCurrent('');setPassword('');setConfirm('');setMessage('Password changed successfully.');
+  setCurrent('');setPassword('');setConfirm('');try{await recordClientEvent('Password changed');setMessage('Password changed successfully.');}catch{setMessage('Password changed, but the activity entry could not be saved. Notify your administrator.');}
  }catch(e){setError(e instanceof Error?e.message:'Could not change password.');}finally{setBusy(false);}}
  return <div className="c-account-layout"><section className="c-panel c-account-summary"><span className="c-account-avatar">{initials(profile.display_name)}</span><h2>{profile.display_name}</h2><span className="c-badge">{roleLabel(profile.role)}</span><p>{profile.email}</p><p className="c-muted">Your name appears in your workspace greeting. Your administrator manages your access.</p></section><div className="c-account-forms">
  <section className="c-panel"><div className="c-panel-title"><h2><UserRound size={20}/> My details</h2></div><form className="c-record-form" onSubmit={save}><div className="c-form-grid"><label className="c-field"><span>Full name</span><input required minLength={2} maxLength={80} autoComplete="name" value={name} onChange={e=>setName(e.target.value)}/></label><label className="c-field"><span>Phone</span><input type="tel" maxLength={40} autoComplete="tel" value={phone} onChange={e=>setPhone(e.target.value)}/></label><label className="c-field c-span"><span>Job title</span><input maxLength={100} autoComplete="organization-title" value={title} onChange={e=>setTitle(e.target.value)}/></label></div><p className="c-muted">Sign-in email: {profile.email}. Contact an administrator to arrange an email change.</p><button className="c-btn" disabled={busy}><Save size={16}/>Save profile</button></form></section>

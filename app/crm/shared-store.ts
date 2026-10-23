@@ -1,3 +1,4 @@
+import {recordClientEvent} from './audit';
 import {supabase} from '@/lib/supabase';
 import type {CRMState} from './store';
 
@@ -65,5 +66,6 @@ export async function downloadSharedDocument(url:string,name:string){
   if(!url.startsWith('supabase-document:'))throw new Error('This document is not in shared secure storage.');
   const {data,error}=await supabase().storage.from('crm-documents').download(url.slice('supabase-document:'.length));
   if(error||!data)throw new Error('Document access failed. Sign in with an authorised staff account.');
+  await recordClientEvent('Document downloaded',url.slice('supabase-document:'.length));
   const blob=URL.createObjectURL(data),a=document.createElement('a');a.href=blob;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(blob),1000);
 }
