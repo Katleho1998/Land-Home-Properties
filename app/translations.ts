@@ -1,5 +1,7 @@
 // Interface copy. Listing descriptions and visitor messages remain as authored.
 const copy = `
+Your next chapter starts here.|Jou volgende hoofstuk begin hier.|Qalo ea hao e ncha e qala mona.
+Loading your website…|Jou webwerf laai…|Re bula websaete ea hao…
 Previous card|Vorige kaart|Karete e fetileng
 Next card|Volgende kaart|Karete e latelang
 Pause automatic slides|Onderbreek outomatiese skyfies|Emisa likarete tse itsamaelang

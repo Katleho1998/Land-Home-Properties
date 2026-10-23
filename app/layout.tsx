@@ -7,6 +7,8 @@ import "./support-chat.css";
 import "./property-gallery.css";
 import "./property-finance.css";
 import "./mobile-refinement.css";
+import "./website-entrance.css";
+import {OpeningScreen} from "./website-entrance";
 
 export const viewport: Viewport = {width:"device-width",initialScale:1,viewportFit:"cover",interactiveWidget:"resizes-content"};
 
@@ -28,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased"><Suspense fallback={<main aria-busy="true" style={{padding:'3rem'}}>Loading Land &amp; Home…</main>}>{children}</Suspense></body>
+      <body className="antialiased"><Suspense fallback={<OpeningScreen/>}>{children}</Suspense></body>
     </html>
   );
 }
