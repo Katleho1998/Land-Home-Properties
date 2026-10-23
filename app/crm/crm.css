@@ -8,3 +8,25 @@
 @media(prefers-reduced-motion:reduce){.crm-app *, .c-modal *{animation:none!important;transition:none!important;scroll-behavior:auto!important}.c-property:hover,.c-btn:hover{transform:none}}
 
 .staff-login{width:min(460px,92vw);padding:36px;background:#fff;border:1px solid #ddd;border-radius:20px;color:#222}.staff-login form,.staff-login label{display:grid;gap:12px}.staff-login form{gap:22px}.staff-login input{padding:14px;border:1px solid #bbb;border-radius:10px;width:100%;color:#222;background:#fff}.staff-login p{line-height:1.6}.staff-login a{display:inline-block;margin-top:24px}
+/* Personal workspace, team controls and connection presence. */
+.c-profile-name{display:block;background:none;border:0;padding:0;color:inherit;text-align:left;font:inherit;font-weight:700;cursor:pointer}
+.c-profile small{display:block;color:#a5aaa5;font-size:11px;margin:3px 0}
+.c-presence.is-online>span{background:#22a566;box-shadow:0 0 0 3px #22a5661c;animation:c-online-pulse 2s ease-in-out infinite}
+.c-presence.is-offline>span{background:#999;animation:none}
+.c-presence.is-error>span{background:#c47a27;animation:none}
+.c-top-actions .c-icon i{background:#dc3545;box-shadow:0 0 0 2px white}
+@keyframes c-online-pulse{50%{opacity:.35;box-shadow:0 0 0 5px #22a5660a}}
+@media(prefers-reduced-motion:reduce){.c-presence.is-online>span{animation:none}}
+.c-account-layout{display:grid;grid-template-columns:minmax(220px,.65fr) minmax(0,1.6fr);gap:24px;align-items:start}
+.c-account-summary{text-align:center}.c-account-summary h2{margin:20px 0 12px}.c-account-summary p{overflow-wrap:anywhere}
+.c-account-avatar{display:grid;place-items:center;width:88px;height:88px;margin:0 auto;background:#eee8de;color:#3a3027;font-size:28px;font-weight:700;border-radius:28px}
+.c-account-forms{display:grid;gap:24px}.c-account-forms .c-panel-title h2,.c-team-layout h2{display:flex;align-items:center;gap:10px}
+.c-account-forms .c-record-form,.c-team-layout .c-record-form{padding:0;display:grid;gap:18px}
+.c-account-permissions{display:flex;align-items:flex-start;gap:16px;background:#ede8df;border:1px solid #ddd5c7;border-radius:16px;padding:22px;margin-bottom:24px}
+.c-account-permissions svg{flex-shrink:0}.c-account-permissions p{margin:8px 0 0;line-height:1.65;font-size:13px}
+.c-team-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr);gap:24px;align-items:start}
+.c-team-member{display:flex;align-items:center;gap:12px;padding:20px 0;border-top:1px solid #eee8de}
+.c-team-person{flex:1;min-width:0}.c-team-person small{display:block;overflow-wrap:anywhere;margin:4px 0 8px;color:#706b64}
+.c-team-actions{display:grid;gap:10px}.c-team-actions select{border:1px solid #ddd5c7;border-radius:8px;padding:9px;background:#fff}
+@media(max-width:1000px){.c-account-layout,.c-team-layout{grid-template-columns:1fr}.c-team-member{flex-wrap:wrap}.c-team-actions{margin-left:auto}}
+@media(max-width:600px){.c-account-forms input,.c-team-layout input,.c-team-actions select{font-size:16px}.c-account-layout,.c-team-layout,.c-account-forms{gap:16px}.c-top-actions .c-presence{display:flex;font-size:11px}}

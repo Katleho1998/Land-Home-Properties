@@ -17,6 +17,11 @@ export async function readSharedState():Promise<CRMState>{
     }
     if(!data||data.length<500)break;
   }
+  if(!(state.settings as unknown as {__revision?:number}).__revision){
+    const {data,error}=await supabase().rpc('lh_assignment_labels');
+    if(error)throw new Error('Could not load staff assignment labels. Check the database update.');
+    if(Array.isArray(data))state.settings.agents=data.filter((v:unknown)=>typeof v==='string');
+  }
   state.leads.sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
   state.activities.sort((a,b)=>b.at.localeCompare(a.at));
   return state;

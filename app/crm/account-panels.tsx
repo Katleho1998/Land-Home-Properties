@@ -1,0 +1,45 @@
+'use client';
+import {useEffect,useState,type FormEvent} from 'react';
+import {UserRound,ShieldCheck,Plus,Save,Users} from 'lucide-react';
+import {supabase} from '@/lib/supabase';
+import {useStaff} from './staff-auth';
+import {initials,roleLabel,type StaffProfile} from './access';
+
+export function ProfilePanel(){
+ const {profile,refresh}=useStaff();
+ const [name,setName]=useState(profile.display_name),[phone,setPhone]=useState(profile.phone),[title,setTitle]=useState(profile.job_title),[message,setMessage]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ const [current,setCurrent]=useState(''),[password,setPassword]=useState(''),[confirm,setConfirm]=useState('');
+ async function save(e:FormEvent){e.preventDefault();setBusy(true);setMessage('');setError('');try{
+  const {error}=await supabase().rpc('lh_update_profile',{full_name:name.trim(),contact_phone:phone.trim(),position_title:title.trim()});if(error)throw new Error(error.message);
+  await refresh();setMessage('Your profile has been updated.');
+ }catch(e){setError(e instanceof Error?e.message:'Could not save your profile.');}finally{setBusy(false);}}
+ async function changePassword(e:FormEvent){e.preventDefault();setMessage('');setError('');if(password!==confirm){setError('The new passwords do not match.');return;}setBusy(true);try{
+  const {error}=await supabase().auth.updateUser({password,current_password:current});if(error)throw new Error(error.message);
+  setCurrent('');setPassword('');setConfirm('');setMessage('Password changed successfully.');
+ }catch(e){setError(e instanceof Error?e.message:'Could not change password.');}finally{setBusy(false);}}
+ return <div className="c-account-layout"><section className="c-panel c-account-summary"><span className="c-account-avatar">{initials(profile.display_name)}</span><h2>{profile.display_name}</h2><span className="c-badge">{roleLabel(profile.role)}</span><p>{profile.email}</p><p className="c-muted">Your name appears in your workspace greeting. Your administrator manages your access.</p></section><div className="c-account-forms">
+ <section className="c-panel"><div className="c-panel-title"><h2><UserRound size={20}/> My details</h2></div><form className="c-record-form" onSubmit={save}><div className="c-form-grid"><label className="c-field"><span>Full name</span><input required minLength={2} maxLength={80} autoComplete="name" value={name} onChange={e=>setName(e.target.value)}/></label><label className="c-field"><span>Phone</span><input type="tel" maxLength={40} autoComplete="tel" value={phone} onChange={e=>setPhone(e.target.value)}/></label><label className="c-field c-span"><span>Job title</span><input maxLength={100} autoComplete="organization-title" value={title} onChange={e=>setTitle(e.target.value)}/></label></div><p className="c-muted">Sign-in email: {profile.email}. Contact an administrator to arrange an email change.</p><button className="c-btn" disabled={busy}><Save size={16}/>Save profile</button></form></section>
+ <section className="c-panel"><div className="c-panel-title"><h2><ShieldCheck size={20}/> Password</h2></div><form className="c-record-form" onSubmit={changePassword}><label className="c-field"><span>Current password</span><input required type="password" autoComplete="current-password" value={current} onChange={e=>setCurrent(e.target.value)}/></label><div className="c-form-grid"><label className="c-field"><span>New password</span><input required minLength={12} maxLength={128} type="password" autoComplete="new-password" value={password} onChange={e=>setPassword(e.target.value)}/></label><label className="c-field"><span>Confirm new password</span><input required type="password" autoComplete="new-password" value={confirm} onChange={e=>setConfirm(e.target.value)}/></label></div><p className="c-muted">Use at least 12 characters and a unique password.</p><button className="c-btn secondary" disabled={busy}>Change password</button></form></section>
+ {message&&<p className="c-inline-note" role="status">{message}</p>}{error&&<p className="c-error" role="alert">{error}</p>}</div></div>;
+}
+
+export function TeamPanel(){
+ const {profile}=useStaff();const [team,setTeam]=useState<StaffProfile[]>([]),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('');
+ const [name,setName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[role,setRole]=useState('staff');
+ async function load(){setLoading(true);try{const {data,error}=await supabase().rpc('lh_list_team');if(error)throw error;setTeam(data||[]);}catch{setError('Could not load the team. Check your admin access and database update.');}finally{setLoading(false);}}
+ useEffect(()=>{void load();},[]);
+ async function create(e:FormEvent){e.preventDefault();setBusy(true);setMessage('');setError('');try{
+  const {data:{session}}=await supabase().auth.getSession();if(!session)throw new Error('Please sign in again.');
+  const response=await fetch('/.netlify/functions/staff-users',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${session.access_token}`},body:JSON.stringify({display_name:name,email,password,role})});
+  const result=await response.json().catch(()=>null) as {created?:boolean;error?:string}|null;if(!response.ok||!result?.created)throw new Error(result?.error||'User creation requires the deployed Netlify service.');
+  setName('');setEmail('');setPassword('');setRole('staff');setMessage('Account created. Share the sign-in details privately; the user can change their password in My profile. No email was sent.');await load();
+ }catch(e){setError(e instanceof Error?e.message:'Could not create the account.');}finally{setBusy(false);}}
+ async function change(member:StaffProfile,next:string|null){
+  if(!window.confirm(next?`Change ${member.display_name} to ${next==='admin'?'Admin':'Staff'}?`:`Remove CRM access for ${member.display_name}? Their records are kept.`))return;
+  setBusy(true);setError('');setMessage('');try{const {error}=await supabase().rpc('lh_change_staff',{target_user:member.user_id,new_role:next});if(error)throw error;setMessage(next?'Role updated.':'CRM access removed.');await load();}catch(e){setError(e instanceof Error?e.message:'Access could not be changed.');}finally{setBusy(false);}
+ }
+ return <><div className="c-account-permissions"><ShieldCheck size={22}/><div><b>The right access for each person.</b><p>Admin manages users, finance, compliance, reports, marketing and settings. Staff handles daily property and client work and can update their own profile. Operational records and documents are shared across staff.</p></div></div>
+ {error&&<p className="c-error" role="alert">{error}</p>}{message&&<p className="c-inline-note" role="status">{message}</p>}
+ <div className="c-team-layout"><section className="c-panel"><div className="c-panel-title"><h2><Users size={20}/> Your team</h2><span className="c-badge">{team.length} members</span></div>{loading?<p role="status">Loading team…</p>:team.map(member=><article className="c-team-member" key={member.user_id}><span className="c-avatar">{initials(member.display_name)}</span><div className="c-team-person"><b>{member.display_name}{member.user_id===profile.user_id?' (you)':''}</b><small>{member.email}</small><span className="c-badge">{roleLabel(member.role)}</span></div>{member.user_id!==profile.user_id&&<div className="c-team-actions"><select aria-label={`Role for ${member.display_name}`} value={member.role==='editor'?'staff':member.role} disabled={busy} onChange={e=>void change(member,e.target.value)}><option value="staff">Staff</option><option value="admin">Admin</option>{member.role==='viewer'&&<option value="viewer">Staff (read only)</option>}</select><button className="c-link" disabled={busy} onClick={()=>void change(member,null)}>Remove access</button></div>}</article>)}</section>
+ <section className="c-panel"><div className="c-panel-title"><h2><Plus size={20}/> Add a team member</h2></div><form className="c-record-form" onSubmit={create}><label className="c-field"><span>Full name</span><input required minLength={2} maxLength={80} value={name} onChange={e=>setName(e.target.value)}/></label><label className="c-field"><span>Sign-in email</span><input required type="email" maxLength={254} autoComplete="off" value={email} onChange={e=>setEmail(e.target.value)}/></label><label className="c-field"><span>Initial password</span><input required type="password" minLength={12} maxLength={128} autoComplete="new-password" value={password} onChange={e=>setPassword(e.target.value)}/></label><label className="c-field"><span>Access role</span><select value={role} onChange={e=>setRole(e.target.value)}><option value="staff">Staff</option><option value="admin">Admin</option></select></label><p className="c-muted">Use a unique password with at least 12 characters. This creates an active login without sending an email. Share credentials privately and ask the user to change their password.</p><button className="c-btn" disabled={busy}>{busy?'Working…':'Create account'}</button></form></section></div></>;
+}

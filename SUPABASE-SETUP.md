@@ -1,3 +1,5 @@
+> **Profiles and Admin/Staff update:** after the original migration, apply `supabase/migrations/202610230001_staff_profiles_roles.sql`. See [CRM-TEAM-SETUP.md](CRM-TEAM-SETUP.md) for the current access matrix and in-CRM account creation. The original instructions below describe the initial setup; the new migration narrows staff access.
+
 # Activate the shared Land & Home database
 
 Project: https://supabase.com/dashboard/project/fgwvrgqwruzdstscgmys

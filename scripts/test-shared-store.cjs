@@ -10,7 +10,7 @@ const api={
     const query={select(){return this},order(){return this},async range(start,end){return {data:rows.slice(start,end+1),error:null}}};
     return query;
   },
-  async rpc(name,payload){rpcCalls.push({name,payload});return {error:failure}}
+  async rpc(name,payload){if(name==='lh_assignment_labels')return {data:['Principal','QA Agent'],error:null};rpcCalls.push({name,payload});return {error:failure}}
 };
 vm.runInNewContext(ts.transpileModule(fs.readFileSync('app/crm/shared-store.ts','utf8'),{
   compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}
@@ -22,6 +22,7 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('app/crm/shared-store.ts',
   const empty=await output.readSharedState();
   assert.equal(empty.properties.length,0);
   assert.equal(empty.leads.length,0);
+  assert.equal(empty.settings.agents[1],'QA Agent');
   assert.equal(empty.settings.email,'hello@landhomeproperties.co.za');
   rows=Array.from({length:501},(_,i)=>({collection:'contacts',id:`C-${i}`,revision:3,data:{id:`C-${i}`,name:'Test'}}));
   assert.equal((await output.readSharedState()).contacts.length,501,'Read all pages, not just first 500');
