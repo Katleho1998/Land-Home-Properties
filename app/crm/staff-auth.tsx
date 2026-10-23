@@ -4,6 +4,7 @@ import {createContext,useContext,useEffect,useState,type ReactNode} from 'react'
 
 import {supabase} from '@/lib/supabase';
 
+import {reportClientEvent,signOutWithAudit} from './audit';
 import type {StaffProfile} from './access';
 import {ArrowLeft,ArrowRight,LogIn,Mail,LockKeyhole,Eye,EyeOff,ShieldCheck,LoaderCircle} from 'lucide-react';
 
@@ -72,7 +73,7 @@ export function StaffAuth({children}:{children:ReactNode}){
    <span className="c-auth-eyebrow">YOUR LAND & HOME WORKSPACE</span>
    <h1 id="staff-login-title">{status==='loading'?'A moment, please.':status==='denied'?'A place on the team.':status==='setup'?'Let’s get you connected.':'Welcome back.'}</h1>
    <p className="c-auth-intro">{status==='loading'?'We’re checking your staff access.':status==='signed-out'?'A fresh start. A clear next step. Sign in and make today count.':status==='denied'?'You’re signed in. An administrator needs to grant your CRM access.':'We couldn’t verify your workspace access.'}</p>
-   {status==='signed-out'&&<form className="c-auth-form" onSubmit={async e=>{e.preventDefault();setBusy(true);setError('');try{const {error}=await supabase().auth.signInWithPassword({email:email.trim(),password});if(error)setError('Sign-in failed. Check your email and password.');}catch{setError('Could not reach the sign-in service. Please try again.');}finally{setBusy(false);}}}>
+   {status==='signed-out'&&<form className="c-auth-form" onSubmit={async e=>{e.preventDefault();setBusy(true);setError('');try{const {error}=await supabase().auth.signInWithPassword({email:email.trim(),password});if(error)setError('Sign-in failed. Check your email and password.');else reportClientEvent('Signed in');}catch{setError('Could not reach the sign-in service. Please try again.');}finally{setBusy(false);}}}>
     <label className="c-auth-label" htmlFor="staff-email">Email address</label><div className="c-auth-input"><Mail size={17} aria-hidden="true"/><input id="staff-email" type="email" autoComplete="username" placeholder="you@landhomeproperties.co.za" required disabled={busy} value={email} onChange={e=>setEmail(e.target.value)}/></div>
     <label className="c-auth-label" htmlFor="staff-password">Password</label><div className="c-auth-input"><LockKeyhole size={17} aria-hidden="true"/><input id="staff-password" type={showPassword?'text':'password'} autoComplete="current-password" placeholder="Enter your password" required disabled={busy} value={password} onChange={e=>setPassword(e.target.value)}/><button type="button" className="c-auth-reveal" aria-label={showPassword?'Hide password':'Show password'} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)}>{showPassword?<EyeOff size={18}/>:<Eye size={18}/>}</button></div>
     <div className="c-auth-help-row"><button type="button" aria-expanded={help} aria-controls="staff-access-help" onClick={()=>setHelp(!help)}>Forgot your password?</button></div>
@@ -82,7 +83,7 @@ export function StaffAuth({children}:{children:ReactNode}){
     <div className="c-auth-divider"><span>NEW TO THE TEAM?</span></div>
     <p className="c-auth-access">Your administrator creates your account.<br/><a href="mailto:hello@landhomeproperties.co.za?subject=CRM%20staff%20access%20request">Request staff access <ArrowRight size={13}/></a></p>
    </form>}
-   {(status==='denied'||status==='setup')&&<div className="c-auth-form">{status==='setup'&&<p role="alert" className="c-auth-error">{error}</p>}<button className="c-auth-submit" onClick={()=>void refresh()}>Check access again<ArrowRight size={17}/></button><button className="c-auth-signout" onClick={()=>void supabase().auth.signOut()}>Sign out and use another account</button><p className="c-auth-access"><a href="mailto:hello@landhomeproperties.co.za?subject=CRM%20access%20help">Contact your administrator</a></p></div>}
+   {(status==='denied'||status==='setup')&&<div className="c-auth-form">{status==='setup'&&<p role="alert" className="c-auth-error">{error}</p>}<button className="c-auth-submit" onClick={()=>void refresh()}>Check access again<ArrowRight size={17}/></button><button className="c-auth-signout" onClick={()=>void signOutWithAudit()}>Sign out and use another account</button><p className="c-auth-access"><a href="mailto:hello@landhomeproperties.co.za?subject=CRM%20access%20help">Contact your administrator</a></p></div>}
    <div className="c-auth-security"><ShieldCheck size={13}/>Private workspace. Authorised staff only.</div>
   </section><p className="c-auth-caption">Local heart. <em>Considered service.</em></p></div></div>
  </main>;
