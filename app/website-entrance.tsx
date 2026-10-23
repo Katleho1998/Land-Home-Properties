@@ -7,7 +7,7 @@ let introduced=false;
 export function OpeningScreen({leaving=false}:{leaving?:boolean}){
   useLocale();
   return <div className={'site-opening'+(leaving?' site-opening-leaving':'')} role="status" aria-live="polite">
-    <div className="site-opening-content"><img src="/brand-approved.png" width={1774} height={887} alt="Land & Home Properties"/><MorphingInfinity aria-hidden="true" role="presentation" aria-label={undefined}/><p>{t('Your next chapter starts here.')}</p><span className="sr-only">{t('Loading your website…')}</span></div>
+    <div className="site-opening-content"><MorphingInfinity aria-hidden="true" role="presentation" aria-label={undefined}/><span className="sr-only">{t('Loading your website…')}</span></div>
   </div>;
 }
 export function WebsiteEntrance({children}:{children:ReactNode}){

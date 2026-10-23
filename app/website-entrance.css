@@ -1,9 +1,7 @@
 .website-entrance-content{display:contents}
 .site-opening{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;padding:24px;background:#faf6ef;color:#292620;opacity:1;transition:opacity .4s ease,visibility .4s;animation:opening-failsafe 0s 6s forwards}
 .site-opening-content{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
-.site-opening-content>img{width:clamp(190px,40vw,260px);height:auto;object-fit:contain;mix-blend-mode:multiply}
 .site-opening .morphing-infinity{width:96px;height:96px;margin:8px 0;color:#292620}
-.site-opening p{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6a6258;margin:0;max-width:280px;line-height:1.7}
 .morphing-infinity .infinity-still{display:none}
 .site-opening-leaving{opacity:0;visibility:hidden;pointer-events:none}
 @keyframes opening-failsafe{to{visibility:hidden;pointer-events:none}}
