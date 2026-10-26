@@ -12,9 +12,9 @@ for(const r of ['staff','editor','viewer'])for(const section of access.adminSect
 for(const section of access.adminSections)assert.equal(access.canOpenSection('admin',section),true);
 for(const r of ['admin','staff','viewer'])assert.equal(access.canOpenSection(r,'My profile'),true);
 const auth={useStaff:()=>({profile:profile(),refresh:async()=>{}})};
-const panels=moduleAt('app/crm/account-panels.tsx',{'./audit':{},'./archive-audit':{},'./staff-auth':auth,'./access':access,'@/lib/supabase':{supabase:()=>{throw new Error('No network in render tests');}}});
+const panels=moduleAt('app/crm/account-panels.tsx',{'./delete-record':{},'./audit':{},'./archive-audit':{},'./staff-auth':auth,'./access':access,'@/lib/supabase':{supabase:()=>{throw new Error('No network in render tests');}}});
 const state={properties:[],contacts:[],leads:[],deals:[],tasks:[{id:'task',title:'Follow up',status:'Open',priority:'Normal',agent:'Test',due:'2026-10-23',time:''}],viewings:[],leases:[],maintenance:[],documents:[],campaigns:[],finance:[],compliance:[],activities:[],settings:{agents:['Test'],responseMinutes:15}};
-const workspace=moduleAt('app/crm/workspace.tsx',{'./audit':{},'./archive-audit':{},'./staff-auth':auth,'./access':access,'./account-panels':panels,'@/lib/supabase':{},'./shared-store':{},'./business-panels':{},'./store':{useCRM:()=>({state,error:''})}}).default;
+const workspace=moduleAt('app/crm/workspace.tsx',{'./delete-record':{},'./audit':{},'./archive-audit':{},'./staff-auth':auth,'./access':access,'./account-panels':panels,'@/lib/supabase':{},'./shared-store':{},'./business-panels':{},'./store':{useCRM:()=>({state,error:''})}}).default;
 for(role of ['admin','staff','viewer']){
  const html=renderToStaticMarkup(React.createElement(workspace));
  assert.match(html,/Hello Katleho/);assert.match(html,/Online/);assert.doesNotMatch(html,/Supabase connected/);

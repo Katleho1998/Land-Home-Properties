@@ -42,3 +42,14 @@ Use disposable test records, never an actual client property for deletion testin
 - Verify pagination and person/area filters with more than 50 audit entries.
 
 Local TypeScript/build and mocked application checks do not execute PostgreSQL policies/triggers. Run these acceptance checks after applying the SQL; no live destructive tests were performed during implementation.
+
+
+## Other record deletion (26 October 2026)
+
+Run `supabase/migrations/202610260001_record_deletion.sql` after the archive/audit migration and deploy the application changes.
+
+Admins can open a saved contact, enquiry, opportunity, task, viewing, lease, maintenance request, document, campaign, financial record or compliance review and choose Delete in its edit window. Confirm using the record reference. Staff cannot permanently delete these records. Settings, audit history and staff accounts are not deletable through this feature.
+
+The server blocks deletion when other records reference the target, including property owners, tenants, contacts, linked documents/tasks/reviews, deal finance records and campaign-attributed enquiries. Resolve legitimate links individually; there is no cascading deletion. Stored document files are retained when their register entry is removed. The existing audit trigger records the deletion atomically. New contact/deal references are checked against existing records to reject stale forms.
+
+Verify with disposable test data: Cancel and incorrect references must leave records intact; delete an unlinked test contact; attempt a linked contact and a deal with finance records; check Admin versus Staff; confirm who/when/what in Settings. Test both the dedicated deletion RPC and the generic save RPC as Staff to ensure neither bypasses permissions. Confirm the popup is centred on desktop/mobile and Escape closes only the confirmation, leaving the editor open. No real records were deleted during local testing. PostgreSQL triggers require verification after migration installation.

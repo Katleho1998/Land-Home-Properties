@@ -66,3 +66,7 @@
 .c-team-actions{display:grid;gap:10px}.c-team-actions select{border:1px solid #ddd5c7;border-radius:8px;padding:9px;background:#fff}
 @media(max-width:1000px){.c-account-layout,.c-team-layout{grid-template-columns:1fr}.c-team-member{flex-wrap:wrap}.c-team-actions{margin-left:auto}}
 @media(max-width:600px){.c-account-forms input,.c-team-layout input,.c-team-actions select{font-size:16px}.c-account-layout,.c-team-layout,.c-account-forms{gap:16px}.c-top-actions .c-presence{display:flex;font-size:11px}}
+
+/* Explicit centring overrides the global reset on native modal dialogs. */
+dialog.c-modal{position:fixed;inset:0;margin:auto;max-height:calc(100dvh - 32px)}
+.c-lifecycle-dialog{--c-line:#e9e5dc;--c-ink:#302c25;--c-green:#536333;max-width:min(540px,calc(100vw - 32px));overflow-wrap:anywhere}.c-lifecycle-dialog .c-modal-footer{flex-wrap:wrap}
